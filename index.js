@@ -12,9 +12,7 @@ const PORT = process.env.PORT || 5000;
 
 
 
-server.use(cors({
-  origin: 'https://sistema-de-gestio-en-refrigeracion-ozar.vercel.app',
-}));
+server.use(cors());
 server.use(express.json())
 server.use('/api',routes)
 db();
