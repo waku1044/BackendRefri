@@ -10,13 +10,13 @@ const server = express();
 
 
 
-db();
 
-server.use(express.json())
 server.use(cors({
-    origin: 'https://sistema-de-gestio-en-refrigeracion-ozar.vercel.app',
-  }));
+  origin: 'https://sistema-de-gestio-en-refrigeracion-ozar.vercel.app',
+}));
+server.use(express.json())
 server.use('/api',routes)
+db();
 
 server.listen(PORT,()=>{
     console.log(`Servidor corriendo en puerto ${PORT}`)
