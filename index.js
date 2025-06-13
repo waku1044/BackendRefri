@@ -2,7 +2,7 @@ import express from 'express';
 import routes from './src/routes/routes.js';
 import cors from 'cors';
 import db from './src/conexion/conexion.js';
-import  env  from 'dotenv';
+
 
 
 
