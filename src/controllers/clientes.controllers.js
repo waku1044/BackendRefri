@@ -57,15 +57,29 @@ export const getClientById =  async(req, res) => {
   }
 };
 
-export const createClient = async (req, res)=>{
-  const { cliente, domicilio, telefono } = req.body
+export const createClient = async (req, res) => {
+  const { cliente, domicilio, telefono } = req.body;
+
+  // Validación de los datos antes de intentar agregarlos a la base de datos
+  if (!cliente || !domicilio || !telefono) {
+    return res.status(400).json({ message: "Faltan campos requeridos" });
+  }
+
   try {
-    const nuevoCliente = await models.clientes.create({ cliente, domicilio, telefono })
-    res.status(200).json({message:'Cliente creado con exito'})
+    // Intentar agregar al cliente
+    const nuevoCliente = await models.clientes.create({ cliente, domicilio, telefono });
+    
+    // Responder con éxito
+    res.status(200).json({ message: 'Cliente creado con éxito', cliente: nuevoCliente });
   } catch (error) {
-    res.status(500).json({ message: "Error en servidor al crear cliente." });
+    // Log del error para depuración
+    console.error('Error al crear cliente:', error);
+
+    // Responder con un mensaje genérico de error
+    res.status(500).json({ message: "Error en servidor al crear cliente", error: error.message });
   }
 };
+
 
 
 export const actualizarCliente = async (req, res)=>{
