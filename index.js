@@ -13,7 +13,9 @@ const server = express();
 db();
 
 server.use(express.json())
-server.use(cors());
+server.use(cors({
+    origin: 'https://sistema-de-gestio-en-refrigeracion-ozar.vercel.app',
+  }));
 server.use('/api',routes)
 
 server.listen(PORT,()=>{
