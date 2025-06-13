@@ -2,11 +2,12 @@ import express from 'express';
 import routes from './src/routes/routes.js';
 import cors from 'cors';
 import db from './src/conexion/conexion.js';
+import  env  from 'dotenv';
 
 
 
-const PORT = process.env.PORT || 5000;
 const server = express();
+const PORT = process.env.PORT || 5000;
 
 
 
