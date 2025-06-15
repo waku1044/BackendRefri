@@ -117,3 +117,16 @@ export const getClientByPhone = async(req, res)=>{
         res.status(500).json({ message: "Error en el servidor.", error });
     }
 };
+
+export const eliminarClientes = async(req, res)=>{
+  const {id} = req.params.id;
+
+  try {
+    const clienteEliminado = await models.clientes.deleteOne(id);
+    if(!clienteEliminado)return res.status(404).json({message:'No se encontro coincidencia.'})
+    return res.status(200).json(clienteEliminado)  
+  } catch (error) {
+    res.status(500).json({ message: "Error en el servidor.", error });
+  }
+
+}
