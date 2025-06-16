@@ -118,7 +118,7 @@ export const getClientByPhone = async(req, res)=>{
     }
 };
 
-export const eliminarClientes = async(req, res)=>{
+export const eliminarCliente = async(req, res)=>{
   const {id} = req.params.id;
 
   try {

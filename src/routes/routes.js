@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import {getAllReparation, getReparationById, agregarEquipo, agregaClienteYEquipo, getAllInstalation, getInstalationById, actualizarEquipo, eliminarEquipo  } from '../controllers/equipo.controllers.js';
-import { bigBoss, getClientById, getAllClients, actualizarCliente, createClient, eliminarClientes } from '../controllers/clientes.controllers.js';
+import { bigBoss, getClientById, getAllClients, actualizarCliente, createClient, eliminarCliente } from '../controllers/clientes.controllers.js';
 
 const routes = express.Router();
 
@@ -23,7 +23,7 @@ routes.put('/instalacion/:id',actualizarEquipo);
 routes.put('/reparacion/:id',actualizarEquipo);
 
 routes.delete('/equipo/:id',eliminarEquipo);
-routes.delete('/cliente/:id',eliminarClientes);
+routes.delete('/cliente/:id',eliminarCliente);
 
 export default routes;
 
