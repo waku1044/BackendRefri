@@ -119,7 +119,7 @@ export const getClientByPhone = async(req, res)=>{
 };
 
 export const eliminarCliente = async(req, res)=>{
-  const {id} = req.params.id;
+  const {id} = req.params;
 
   try {
     const clienteEliminado = await models.clientes.deleteOne(id);
