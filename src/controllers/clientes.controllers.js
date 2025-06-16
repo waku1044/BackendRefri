@@ -122,9 +122,10 @@ export const eliminarCliente = async(req, res)=>{
   const {id} = req.params;
 
   try {
-    const clienteEliminado = await models.clientes.deleteOne(id);
+    if(!id) return res.status(400).json({message:'Falta el ID del equipo.'})
+    const clienteEliminado = await models.clientes.findByIdAndDelete(id);
     if(!clienteEliminado)return res.status(404).json({message:'No se encontro coincidencia.'})
-    return res.status(200).json(clienteEliminado)  
+    return res.status(200).json({message:'cliente eliminado.',clienteEquipo})  
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor.", error });
   }

@@ -177,7 +177,7 @@ export const actualizarEquipo = async (req, res) => {
 
 export const eliminarEquipo = async(req, res)=>{
   const { id } = req.params;
-  console.log('Puesto_1',id)
+  
   try {
     if(!id) return res.status(400).json({message:'Falta el ID del equipo.'})
     const equipoEliminar = await models.equipos.findByIdAndDelete(id);
