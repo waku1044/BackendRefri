@@ -119,10 +119,11 @@ export const getClientByPhone = async(req, res)=>{
 };
 
 export const eliminarCliente = async(req, res)=>{
-  const {id} = req.params;
+  const id = req.params.id;
 
   try {
     if(!id) return res.status(400).json({message:'Falta el ID del equipo.'})
+    console.log(id)
     const clienteEliminado = await models.clientes.findByIdAndDelete(id);
     if(!clienteEliminado)return res.status(404).json({message:'No se encontro coincidencia.'})
     return res.status(200).json({message:'cliente eliminado.',clienteEquipo})  
