@@ -114,23 +114,18 @@ export const getClientByPhone = async(req, res)=>{
 // }
 
 export const eliminarCliente = async (req, res) => {
-  const {id} = req.params;
-  console.log(id)
+  const { id } = req.params;
+  console.log(id);
 
   try {
     if (!id) return res.status(400).json({ message: 'Falta el ID del cliente.' });
 
-    // Verifica si el ID es válido
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: 'ID no válido.' });
-    }
-
     // Encuentra y elimina al cliente
-    const clienteEliminado = await modelClientes.findByIdAndDelete(id);
-    console.log('Cliente a eliminar: ', clienteEliminado)
+    const clienteEliminado = await modelClientes.findByIdAndDelete({ _id: id });
+    console.log('Cliente a eliminar: ', clienteEliminado);
 
     if (!clienteEliminado) {
-      return res.status(200).json({ message: 'No se encontró el cliente.' });
+      return res.status(404).json({ message: 'No se encontró el cliente.' });  // Cambié el 200 por 404
     }
 
     // Responde con el cliente eliminado o un mensaje de éxito
@@ -138,9 +133,11 @@ export const eliminarCliente = async (req, res) => {
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error en el servidor.', error:error.message });
+    return res.status(500).json({ message: 'Error en el servidor.', error: error.message });
   }
 };
+
+
 
 
 
