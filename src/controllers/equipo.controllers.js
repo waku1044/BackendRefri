@@ -85,67 +85,6 @@ export const agregarEquipo = async (req, res) => {
   }
 };
 
-export const agregaClienteYEquipo = async (req, res) => {
-  const {
-    cliente,
-    domicilio,
-    telefono,
-    equipo,
-    marca,
-    tipo,
-    falla,
-    fecha,
-    estado,
-    descripcion,
-  } = req.body;
-
-  console.log(req.body); // Para depurar
-
-  try {
-    // Verificar que el cliente tiene toda la información necesaria
-    if (cliente && domicilio && telefono) {
-      // Crear el cliente en la base de datos
-      const nuevoCliente = await models.clientes.create({
-        cliente,
-        domicilio,
-        telefono,
-      });
-
-      // Verificar que el equipo tiene toda la información necesaria
-      if (equipo && marca && tipo && falla && fecha && estado && descripcion) {
-        // Crear el equipo asociado al cliente
-        const nuevoEquipo = await modelEquipos.create({
-          equipo,
-          marca,
-          tipo,
-          falla,
-          fecha,
-          estado,
-          descripcion,
-          idCliente: nuevoCliente.id, // Relacionar con el cliente recién creado
-        });
-
-        // Responder al cliente que todo fue exitoso
-        return res.json({
-          message: "Se registró con éxito cliente y equipo.",
-          nuevoCliente,
-          nuevoEquipo,
-        });
-      } else {
-        // Si falta información del equipo
-        return res.status(400).json({ message: "Faltan datos del equipo." });
-      }
-    } else {
-      // Si falta información del cliente
-      return res.status(400).json({ message: "Faltan datos del cliente." });
-    }
-  } catch (error) {
-    // Manejo de errores
-    return res.status(500).json({ message: "Error en el servidor", error });
-  }
-};
-
-
 export const actualizarEquipo = async (req, res) => {
   const id = req.params.id;
   try {

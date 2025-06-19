@@ -6,7 +6,7 @@ export const bigBoss = async (req, res)=>{
     console.log(user, password)
     try {
       if(user && password){
-        if(user === 'walter' && password === '12345'){
+        if(user === 'walter' && password === '12346'){
            res.status(200).json({message:'Confirmado.'})
         }else{
         res.status(401).json({message:'Usuario / Contraseña incorrectos'})
