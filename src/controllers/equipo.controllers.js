@@ -1,8 +1,8 @@
-import models from "../modelo/equipo.js";
+import modelEquipos from "../modelo/equipos.models.js";
 
 export const getAllReparation = async (req, res) => {
   try {
-    const reparacion = await models.equipos.find({ tipo: "reparacion" });
+    const reparacion = await modelEquipos.find({ tipo: "reparacion" });
     if (reparacion.length > 0) {
       
       return res.status(200).json(reparacion);
@@ -18,7 +18,7 @@ export const getAllReparation = async (req, res) => {
 
 export const getAllInstalation = async (req, res) => {
   try {
-    const instalacion = await models.equipos.find({ tipo: "instalacion" });
+    const instalacion = await modelEquipos.find({ tipo: "instalacion" });
     if (instalacion.length > 0) {
       return res.status(200).json(instalacion);
     } else {
@@ -35,7 +35,7 @@ export const getAllInstalation = async (req, res) => {
 
 export const getReparationById = async (req, res) => {
   const id = req.params.id;
-  const equipo = await models.equipos.findById(id);
+  const equipo = await modelEquipos.findById(id);
   try {
     if (!equipo) {
       return res.status(404).json({ message: "No se encontro coincidencia." });
@@ -49,7 +49,7 @@ export const getReparationById = async (req, res) => {
 
 export const getInstalationById = async (req, res) => {
   const id = req.params.id;
-  const instalacion = await models.equipos.findById(id);
+  const instalacion = await modelEquipos.findById(id);
   try {
     if (!instalacion) {
       return res.status(404).json({ message: "No se encontro coincidencia." });
@@ -66,7 +66,7 @@ export const agregarEquipo = async (req, res) => {
     req.body;
   try {
     if (equipo && marca && tipo && falla && fecha && estado && descripcion) {
-      const nuevoEquipo = await models.equipos.create({
+      const nuevoEquipo = await modelEquipos.create({
         equipo,
         marca,
         tipo,
@@ -114,7 +114,7 @@ export const agregaClienteYEquipo = async (req, res) => {
       // Verificar que el equipo tiene toda la información necesaria
       if (equipo && marca && tipo && falla && fecha && estado && descripcion) {
         // Crear el equipo asociado al cliente
-        const nuevoEquipo = await models.equipos.create({
+        const nuevoEquipo = await modelEquipos.create({
           equipo,
           marca,
           tipo,
@@ -150,7 +150,7 @@ export const actualizarEquipo = async (req, res) => {
   const id = req.params.id;
   try {
     // Buscar el registro por ID y actualizarlo
-    const registroActualizado = await models.equipos.findByIdAndUpdate(
+    const registroActualizado = await modelEquipos.findByIdAndUpdate(
       id, 
       req.body, 
       { new: true }  // Esto asegura que obtengas el registro actualizado como respuesta
@@ -180,7 +180,7 @@ export const eliminarEquipo = async(req, res)=>{
   
   try {
     if(!id) return res.status(400).json({message:'Falta el ID del equipo.'})
-    const equipoEliminar = await models.equipos.findByIdAndDelete(id);
+    const equipoEliminar = await modelEquipos.findByIdAndDelete(id);
     console.log('Equipo a eliminar: ',equipoEliminar)
     if(!equipoEliminar)return res.status(404).json({message:'No se encontro equipo.'})
     console.log('Puesto_2',)

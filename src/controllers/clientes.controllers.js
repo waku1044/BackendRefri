@@ -1,32 +1,10 @@
-import models from "../modelo/equipo.js";
-
-
-
-
-// El Big Boss
-export const bigBoss = async (req, res)=>{
-  const { user, password } = await req.body;
-  console.log(user, password)
-  try {
-    if(user && password){
-      if(user === 'walter' && password === '12345'){
-         res.status(200).json({message:'Confirmado.'})
-      }else{
-      res.status(401).json({message:'Usuario / Contraseña incorrectos'})
-    }
-  }else{
-    res.status(400).json({message:'Debe completar los campos.'})
-  }
-  } catch (error) {
-     res.status(500).json({ message: 'Error del servidor', error: error.message })
-  }
-}
+import modelClientes from "../modelo/clientes.models.js";
 
 
 // Ver a todos los clientes
 export const getAllClients = async (req, res) => {
   try {
-    const clientes = await models.clientes.find();
+    const clientes = await modelClientes.find();
     if (clientes.length > 0) {
       res.status(200).json(clientes);
     }else{
@@ -43,7 +21,7 @@ export const getClientById =  async(req, res) => {
   const id = req.params.id;
   console.log(id)
   try {
-      const cliente = await models.clientes.findById(id);
+      const cliente = await modelClientes.findById(id);
       
       console.log('Cliente con Id: ',cliente)
     if (!cliente) {
@@ -67,7 +45,7 @@ export const createClient = async (req, res) => {
 
   try {
     // Intentar agregar al cliente
-    const nuevoCliente = await models.clientes.create({ cliente, domicilio, telefono });
+    const nuevoCliente = await modelClientes.create({ cliente, domicilio, telefono });
     
     // Responder con éxito
     res.status(200).json({ message: 'Cliente creado con éxito', cliente: nuevoCliente });
@@ -86,7 +64,7 @@ export const createClient = async (req, res) => {
 export const actualizarCliente = async (req, res)=>{
   const id = req.params.id;
   try {
-    const actualizarCliente = await models.clientes.findByIdAndUpdate(id, req.body);
+    const actualizarCliente = await modelClientes.findByIdAndUpdate(id, req.body);
     // Si no se encuentra el registro
     if (!actualizarCliente) {
       return res.status(404).json({ error: 'Cliente no encontrado' });
@@ -110,7 +88,7 @@ export const actualizarCliente = async (req, res)=>{
 export const getClientByPhone = async(req, res)=>{
     const phone = req.params.phone;
     try {
-        const cliente = await models.clientes.findOne({telefono:phone})
+        const cliente = await modelClientes.findOne({telefono:phone})
         if(!cliente) return res.status(404).json({message:'No se encontro coincidencia.'})
         return res.status(200).json(cliente)
     } catch (error) {
@@ -118,17 +96,33 @@ export const getClientByPhone = async(req, res)=>{
     }
 };
 
-export const eliminarCliente = async(req, res)=>{
-  const id = req.params.id;
+export const eliminarCliente = async (req, res) => {
+  const {id} = req.params;
+  console.log(id)
 
   try {
-    if(!id) return res.status(400).json({message:'Falta el ID del equipo.'})
-    console.log(id)
-    const clienteEliminado = await models.clientes.findByIdAndDelete(id);
-    if(!clienteEliminado)return res.status(404).json({message:'No se encontro coincidencia.'})
-    return res.status(200).json({message:'cliente eliminado.',clienteEquipo})  
-  } catch (error) {
-    res.status(500).json({ message: "Error en el servidor.", error });
-  }
+    if (!id) return res.status(400).json({ message: 'Falta el ID del cliente.' });
 
-}
+    // Verifica si el ID es válido
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'ID no válido.' });
+    }
+
+    // Encuentra y elimina al cliente
+    const clienteEliminado = await modelClientes.findByIdAndDelete(id);
+
+    if (!clienteEliminado) {
+      return res.status(404).json({ message: 'No se encontró el cliente.' });
+    }
+
+    // Responde con el cliente eliminado o un mensaje de éxito
+    return res.status(200).json({ message: 'Cliente eliminado.', clienteEliminado });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error en el servidor.', error });
+  }
+};
+
+
+
